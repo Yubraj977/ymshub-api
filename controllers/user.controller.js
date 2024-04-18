@@ -1,6 +1,6 @@
 require('dotenv').config()
 const user = require('../models/user.model.js')
-const bcrypt = require('bcrypt');
+
 const errorHandler=require('../utils/error.js')
 var jwt = require('jsonwebtoken');
 
@@ -15,8 +15,8 @@ console.log(req.body)
 
 
     try {
-        const hashpassword = await bcrypt.hash(password, 10,)
-        const newuser = new user({ username, email, password:hashpassword })
+     
+        const newuser = new user({ username, email, password })
         await newuser.save();
         res.json({ sucess:true, message: "Signup Sucess" })
     } catch (error) {
@@ -45,20 +45,20 @@ if ( !email || !password ||  email == " " || password == '') {
     if(!validUser){
        return next(errorHandler(404,'user Not found'))
     }
-    const validPassword=bcrypt.compareSync(password,validUser.password)
     
-    if(!validPassword){
-        next(errorHandler(400,"Invalid Password"))
-    }
+    
+    if (validUser.password !== password) {
+      return next(errorHandler(400, "Invalid password"));
+  }
 
 
 
-    if(validUser&&validPassword){
+  
 const token=jwt.sign({id:validUser._id,username:validUser.username,isAdmin:validUser.isAdmin},process.env.SECRET_KEY)
 const userData={username:validUser.username, email:validUser.email,photo:validUser.photo,_id:validUser._id,isAdmin:validUser.isAdmin}
 
 res.status(200).cookie("access_token",token,).json({sucess:true,...userData})
-    }
+    
 
 
 
