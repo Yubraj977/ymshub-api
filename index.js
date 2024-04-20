@@ -6,7 +6,16 @@ const { default: mongoose } = require('mongoose');
 const Movie=require('./models/movie.model')
 const movieRouter=require('./routes/movie.router')
 const userRouter=require('./routes/user.router')
-
+mongoose.connect('mongodb+srv://yubrajkhatri977:ZvZDtiPvWSlHQdcD@cluster0.lugycjo.mongodb.net/movie-api')
+  .then(() => {
+    console.log(`Connected successfully to the database`);
+  })
+  .catch((error) => {
+    console.error(`Error connecting to the database:`, error);
+    process.exit(1); // Exit the process if database connection fails
+  });
+require('./models/movie.model')
+require('./models/user.model')
 
 const app = express()
 app.use(cookieParser())
@@ -48,13 +57,7 @@ app.get('/', (req, res) => {
 
 
 app.listen(process.env.PORT,()=>{
-try {
-  mongoose.connect(process.env.DATABASE_URI).then((res)=>{
-    console.log('connection with database sucess')
-  })
-} catch (error) {
- console.log(`Error with the database`) 
-}
+
     console.log(`Server is listinig in ${process.env.PORT}`)
   
 })
