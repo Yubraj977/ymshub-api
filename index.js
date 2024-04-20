@@ -6,7 +6,7 @@ const { default: mongoose } = require('mongoose');
 const Movie=require('./models/movie.model')
 const movieRouter=require('./routes/movie.router')
 const userRouter=require('./routes/user.router')
-mongoose.connect('mongodb+srv://yubrajkhatri977:ZvZDtiPvWSlHQdcD@cluster0.lugycjo.mongodb.net/movie-api')
+mongoose.connect(process.env.DATABASE_URI)
   .then(() => {
     console.log(`Connected successfully to the database`);
   })
