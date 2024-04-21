@@ -16,21 +16,55 @@ async function getMovie(req,res){
         const startIndex=parseInt(req.query.startIndex)||0
         const limit=parseInt(req.query.limit)||9;
         const sortDirection=req.query.order==='asc'?1:-1;
+        const language=req.query.ln
         const movie=await Movie.find({
             ...(req.query.postId&&{_id:req.query.postId}),
             ...(req.query.searchTerm&&{
                 $or:[
-                    {title:{$regex:req.query.searchTerm,$options:'i'}},
-                    
+                    {name:{$regex:req.query.searchTerm,$options:'i'}},   
                 ]
+            }),
+            ...(req.query.genre&&{
+                $or:[
+                    {genre:{$regex:req.query.genre,$options:'i'}}
+                ]
+               
+            }),
+            ...(req.query.ln&&{
+                $or:[
+                    {language:{$regex:req.query.ln,$options:'i'}}
+                ]
+               
             })
         }).sort({updatedAt:sortDirection})
         .skip(startIndex)
         .limit(limit)
+        const totalLanguage =await Movie.find(
+            req.query.ln && {
+                $or: [
+                    { language: { $regex: req.query.ln, $options: 'i' } }
+                ]
+            }
+        );
+        const totalGenre =await Movie.find(
+            req.query.genre && {
+                $or: [
+                    { genre: { $regex: req.query.genre, $options: 'i' } }
+                ]
+            }
+        );
+      
+
         const totalMovies=await Movie.countDocuments();
+        const filterTotalMovies=await movie.length;
         res.status(200).json({
             movie,
-            totalMovies
+            totalMovies,
+            filterTotalMovies,
+            totalLanguage:totalLanguage.length,
+            totalGenre:totalGenre.length
+           
+            
         })
     } catch (error) {
         res.status(500).json({sucess:false,message:error.message})
