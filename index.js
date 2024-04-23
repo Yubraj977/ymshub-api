@@ -42,18 +42,6 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-// app.get('/create', async (req, res) => {
-//   try {
-//       const myMovie = new Movie({
-//           name: "insterteller"
-//       });
-//       await myMovie.save();
-//       res.status(201).send("Movie created successfully!");
-//   } catch (error) {
-//       console.error("Error creating movie:", error);
-//       res.status(500).send("Error creating movie");
-//   }
-// });
 
 
 app.listen(process.env.PORT,()=>{

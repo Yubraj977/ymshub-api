@@ -1,6 +1,6 @@
 const Movie=require('../models/movie.model')
 async function createMovie(req,res){
-    console.log(req.body)
+  
     try {
         const myMovie = new Movie(req.body);
         await myMovie.save();

@@ -5,7 +5,7 @@ const errorHandler=require('../utils/error.js')
 var jwt = require('jsonwebtoken');
 
 const signup = async (req, res,next) => {
-console.log(req.body)
+
 
     const { username, email, password } = req.body
     if (!username || !email || !password || username == ' ' || email == " " || password == '') {
@@ -32,16 +32,15 @@ console.log(req.body)
 
 const signin=async(req,res,next)=>{
    
-console.log(req.body);
+
 const {email, password } = req.body;
-console.log(email)
-console.log(password)
+
 if ( !email || !password ||  email == " " || password == '') {
     next(errorHandler(400,'All Fields are required')) 
  }
   try {
     const validUser=await user.findOne({email})
-   console.log(validUser)
+ 
     if(!validUser){
        return next(errorHandler(404,'user Not found'))
     }

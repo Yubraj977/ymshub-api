@@ -22,6 +22,10 @@ const userSchema=new mongoose.Schema({
     ,isAdmin:{
         type:Boolean,
         default:false
+    },
+    canDelete:{
+      type:Boolean,
+      deafult:false  
     }
 },{timestamps:true});
 const user=mongoose.model('user',userSchema)
