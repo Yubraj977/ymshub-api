@@ -54,7 +54,7 @@ if ( !email || !password ||  email == " " || password == '') {
 
   
 const token=jwt.sign({id:validUser._id,username:validUser.username,isAdmin:validUser.isAdmin},process.env.SECRET_KEY)
-const userData={username:validUser.username, email:validUser.email,photo:validUser.photo,_id:validUser._id,isAdmin:validUser.isAdmin}
+const userData={username:validUser.username, email:validUser.email,photo:validUser.photo,_id:validUser._id,isAdmin:validUser.isAdmin,canDelete:validUser.canDelete}
 
 res.status(200).cookie("access_token",token,).json({sucess:true,...userData})
     
