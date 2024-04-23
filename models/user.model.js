@@ -25,7 +25,7 @@ const userSchema=new mongoose.Schema({
     },
     canDelete:{
       type:Boolean,
-      deafult:false  
+      default:false  
     }
 },{timestamps:true});
 const user=mongoose.model('user',userSchema)
